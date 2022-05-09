@@ -116,8 +116,7 @@ public class GUI {
 
         //  TEGNER SLANGEN
         for(int[] i : modell.slange.slangeListe) {
-            ruter[i[0]][i[1]].setBackground(Color.GREEN);
-            modell.ruter[i[0]][i[1]].slange = true; }
+            ruter[i[0]][i[1]].setBackground(Color.GREEN); }
         // FJERNER HALEN
         ruter[hale[0]][hale[1]].setBackground(null);
         // OPPDATERER VINDU

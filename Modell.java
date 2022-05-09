@@ -35,7 +35,9 @@ public class Modell {
     // Konstruktør
     Modell() {
         gui = new GUI(this);
-        slange = new Slange(); }
+        slange = new Slange();
+        ruter[6][6].slange = true;
+        ruter[6][5].slange = true; }
 
 
 
@@ -58,6 +60,7 @@ public class Modell {
             slange.slangeListe.add(hale);
             gui.mat(hale, hode); 
             ruter[hode[0]][hode[1]].mat=0; }
+        ruter[hode[0]][hode[1]].slange = true;
         ruter[hale[0]][hale[1]].slange = false;
         return hale; }
     
