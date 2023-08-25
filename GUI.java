@@ -35,45 +35,61 @@ public class GUI {
         
         len = new JLabel("2"); len.setFont(new Font("Serif", Font.PLAIN, 40));
         
-        opp = new JButton("OPP"); opp.setPreferredSize(new Dimension(50, 50));
-        ned = new JButton("NED"); ned.setPreferredSize(new Dimension(50, 50));
-        venstre = new JButton("VENSTRE"); venstre.setPreferredSize(new Dimension(75, 50));
-        hoyre = new JButton("HOYRE"); hoyre.setPreferredSize(new Dimension(75, 50));
+        opp = new JButton("^"); opp.setPreferredSize(new Dimension(50, 50));
+        ned = new JButton("v"); ned.setPreferredSize(new Dimension(50, 50));
+        venstre = new JButton("<"); venstre.setPreferredSize(new Dimension(75, 50));
+        hoyre = new JButton(">"); hoyre.setPreferredSize(new Dimension(75, 50));
         stoppknapp = new JButton("Exit"); 
         
+        rutenett.setLayout(new GridLayout(12,12, 2, 2));
+        rutenett.setPreferredSize(new Dimension(500, 500));
+        
+        for (int rad = 0; rad < 12; ++rad) {
+            for (int kol = 0; kol < 12; ++kol) {
+                JPanel b = new JPanel(); b.setBorder(BorderFactory.createLoweredBevelBorder());
+                ruter[rad][kol] = b;
+                modell.ruter[rad][kol] = modell.new Rute(rad, kol);
+                rutenett.add(b); } }
+                
+        //  LAGER MAT
+        for (int i = 0; i < 10; i++) {
+            int rad = (int)(Math.random()*(-2-11+1))+11;
+            int kol = (int)(Math.random()*(-2-11+1))+11;
+            ruter[rad][kol].add(new JLabel("$"));
+            modell.ruter[rad][kol].mat++; }
+            
         //  IMPLENENTERER FUNKSJON FOR ALLE KNAPPENE
+        class Tast extends KeyAdapter {
+            @Override
+        public void keyPressed(KeyEvent e) { modell.keyPressed(e); } }
+
         class Stoppbehandler implements ActionListener {
             @Override
-            public void actionPerformed (ActionEvent e) {
-                System.exit(0); } }
+            public void actionPerformed (ActionEvent e) { System.exit(0); } }
         
         class Opp implements ActionListener {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                modell.slange.retning = 'o'; } }
-        
+            public void actionPerformed(ActionEvent e) { modell.slange.retning = 'o'; } }
+            
         class Ned implements ActionListener {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                modell.slange.retning = 'n'; } }
-
+            public void actionPerformed(ActionEvent e) { modell.slange.retning = 'n'; } }
+            
         class Hoyre implements ActionListener {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                modell.slange.retning = 'h'; } }
-
+            public void actionPerformed(ActionEvent e) { modell.slange.retning = 'h'; } }
+                
         class Venstre implements ActionListener {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                modell.slange.retning = 'v'; } }
-
-
+            public void actionPerformed(ActionEvent e) { modell.slange.retning = 'v'; } }
+                    
+                    
+        vindu.setFocusable(true); vindu.addKeyListener(new Tast());
         opp.addActionListener(new Opp());
         ned.addActionListener(new Ned());
-        hoyre.addActionListener(new Hoyre());
-        venstre.addActionListener(new Venstre());
+        hoyre.addActionListener(new Hoyre()); 
+        venstre.addActionListener(new Venstre()); 
         stoppknapp.addActionListener(new Stoppbehandler());
-
         //  LEGGER SAMMEN ALLE JPANELS
         vindu.add(panel);
         lengde.add(new JLabel("Lengde:")); lengde.add(len);
@@ -86,25 +102,7 @@ public class GUI {
         styring.add(venstre, BorderLayout.WEST);
         konsoll.add(styring, BorderLayout.CENTER);
         konsoll.add(avslutt,BorderLayout.EAST);
-
-        rutenett.setLayout(new GridLayout(12,12, 2, 2));
-        rutenett.setPreferredSize(new Dimension(500, 500));
-
-        for (int rad = 0; rad < 12; ++rad) {
-            for (int kol = 0; kol < 12; ++kol) {
-                JPanel b = new JPanel(); b.setBorder(BorderFactory.createLoweredBevelBorder());
-                ruter[rad][kol] = b;
-                modell.ruter[rad][kol] = modell.new Rute(rad, kol);
-                rutenett.add(b); } }
-
-        //  LAGER MAT
-        for (int i = 0; i < 10; i++) {
-            int rad = (int)(Math.random()*(-2-11+1))+11;
-            int kol = (int)(Math.random()*(-2-11+1))+11;
-            ruter[rad][kol].add(new JLabel("$"));
-            modell.ruter[rad][kol].mat++; }
-        
-
+                    
         panel.add(rutenett, BorderLayout.CENTER);
         vindu.pack();
         vindu.setVisible(true); }
@@ -112,11 +110,15 @@ public class GUI {
 
 
 
+
+
+        
     void updateSlange(int[] hale) {
 
         //  TEGNER SLANGEN
         for(int[] i : modell.slange.slangeListe) {
             ruter[i[0]][i[1]].setBackground(Color.GREEN); }
+        ruter[modell.slange.slangeListe.get(0)[0]][modell.slange.slangeListe.get(0)[1]].setBackground(Color.ORANGE);
         // FJERNER HALEN
         ruter[hale[0]][hale[1]].setBackground(null);
         // OPPDATERER VINDU

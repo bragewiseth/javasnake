@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.awt.event.*;
 
 public class Modell {
 
@@ -77,6 +78,25 @@ public class Modell {
                         ledigeRuter.add(rute);}} 
 
         } } return ledigeRuter; }
+
+    
+
+        
+    public void keyPressed(KeyEvent e) {
+
+        int key = e.getKeyCode();
+
+        if (key == KeyEvent.VK_LEFT) {
+            slange.retning = 'v'; }
+
+        if (key == KeyEvent.VK_RIGHT) {
+            slange.retning = 'h'; }
+
+        if (key == KeyEvent.VK_UP) {
+            slange.retning = 'o'; }
+
+        if (key == KeyEvent.VK_DOWN) {
+            slange.retning = 'n'; } }
 
 
 
